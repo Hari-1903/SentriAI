@@ -1,11 +1,13 @@
-import React from 'react'
+import { HeroSection } from "@/components/global/hero-section";
+import { SiteHeader } from "@/components/global/site-header";
 
-const landingpage = () => {
+export default function Home() {
   return (
-    <div>
-      Main Landing page
+    <div className="relative flex min-h-screen flex-col">
+      <SiteHeader />
+      <main className="flex-1">
+        <HeroSection />
+      </main>
     </div>
-  )
+  );
 }
-
-export default landingpage
