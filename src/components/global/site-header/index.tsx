@@ -10,18 +10,19 @@ import { ChevronDown } from "lucide-react";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background">
-      <div className="container flex h-16 items-center justify-between">
-        <nav className="flex items-center gap-6">
-          <Link href="/" className="text-sm font-medium">
+    <header className="w-full border-b bg-background py-4">
+      <div className="container max-w-[1400px] mx-auto px-4 flex items-center justify-between">
+        <nav className="flex items-center space-x-6">
+          <Link href="/" className="text-sm hover:text-gray-600">
             Home Page
           </Link>
-          <Link href="/about" className="text-sm font-medium">
+          <Link href="/about" className="text-sm hover:text-gray-600">
             About Us
           </Link>
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium">
-              Services <ChevronDown className="h-4 w-4" />
+            <DropdownMenuTrigger className="flex items-center space-x-1 text-sm hover:text-gray-600">
+              <span>Services</span>
+              <ChevronDown className="h-4 w-4" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>
@@ -37,12 +38,19 @@ export function SiteHeader() {
           </DropdownMenu>
         </nav>
 
-        <Link href="/" className="text-xl font-bold">
-          SentriAI
-        </Link>
+        <div className="absolute left-1/2 -translate-x-1/2">
+          <Link href="/" className="text-xl font-semibold">
+            SentriAI
+          </Link>
+        </div>
 
-        <div className="flex items-center gap-4">
-          <Button variant="default">Join</Button>
+        <div>
+          <Button
+            variant="default"
+            className="bg-[#0F172A] text-white hover:bg-[#1E293B]"
+          >
+            Join
+          </Button>
         </div>
       </div>
     </header>
