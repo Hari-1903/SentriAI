@@ -11,12 +11,15 @@ import { ChevronDown } from "lucide-react";
 export function SiteHeader() {
   return (
     <header className="w-full border-b bg-background py-4">
-      <div className="container max-w-[1400px] mx-auto px-4 flex items-center justify-between">
-        <nav className="flex items-center space-x-6">
-          <Link href="/" className="text-sm hover:text-gray-600">
+      <div className="container max-w-fll mx-auto px-4 flex items-center justify-between">
+        <nav className="flex items-center space-x-6 gap-x-6 justify-between">
+          <Link href="/" className="text-sm hover:text-gray-600 text-black ">
             Home Page
           </Link>
-          <Link href="/about" className="text-sm hover:text-gray-600">
+          <Link
+            href="/about"
+            className="text-sm hover:text-gray-600 text-black"
+          >
             About Us
           </Link>
           <DropdownMenu>
@@ -38,16 +41,17 @@ export function SiteHeader() {
           </DropdownMenu>
         </nav>
 
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <Link href="/" className="text-xl font-semibold">
+        <div className="absolute left-1/2 -translate-x-1/2 items-center">
+          <Link href="/" className="font-semibold text-2xl">
             SentriAI
           </Link>
         </div>
 
-        <div>
+        <div className="justify-start">
           <Button
             variant="default"
-            className="bg-[#0F172A] text-white hover:bg-[#1E293B]"
+            className="bg-[#0F172A] text-white hover:bg-[#1E293B] rounded-xl
+            px-6 py-2 text-lg transition-all duration-500 ease-in-out"
           >
             Join
           </Button>
