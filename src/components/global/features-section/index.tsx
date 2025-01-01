@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 export function FeaturesSection() {
   return (
     <section className="container max-w-[1400px] mx-auto my-20 px-4 py-20 items-center justify-between">
-      <div className="flex flex-col items-center text-center space-y-10 mb-16 ">
+      <div className="flex flex-col items-center text-center space-y-10 mb-16 justify-between">
         <h2 className="text-4xl font-bold leading-tight tracking-tight lg:text-6xl max-w-3xl">
           Revolutionize Your Workflow with AI
         </h2>
