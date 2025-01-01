@@ -1,3 +1,4 @@
+import { FeaturesSection } from "@/components/global/features-section";
 import { HeroSection } from "@/components/global/hero-section";
 import { SiteHeader } from "@/components/global/site-header";
 import { TransformSection } from "@/components/global/transform-section";
@@ -10,6 +11,7 @@ export default function Home() {
         <main className="flex flex-col items-center w-full justify-between mt-40 gap-y-20 ">
           <HeroSection />
           <TransformSection />
+          <FeaturesSection />
         </main>
       </div>
     </div>
