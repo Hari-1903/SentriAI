@@ -3,6 +3,7 @@ import { EfficiencySection } from "@/components/global/efficiency-section";
 import { FeaturesSection } from "@/components/global/features-section";
 import { HeroSection } from "@/components/global/hero-section";
 import { SiteHeader } from "@/components/global/site-header";
+import { TestimonialsSection } from "@/components/global/testimonials-section";
 import { TransformSection } from "@/components/global/transform-section";
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
           <FeaturesSection />
           <EfficiencySection />
           <DiscoverSection />
+          <TestimonialsSection />
         </main>
       </div>
     </div>
