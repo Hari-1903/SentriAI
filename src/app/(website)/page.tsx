@@ -2,6 +2,8 @@ import { DiscoverSection } from "@/components/global/discover-section";
 import { EfficiencySection } from "@/components/global/efficiency-section";
 import { FeaturesSection } from "@/components/global/features-section";
 import { HeroSection } from "@/components/global/hero-section";
+import { NewsletterSection } from "@/components/global/newsletter-section";
+import { SiteFooter } from "@/components/global/site-footer";
 import { SiteHeader } from "@/components/global/site-header";
 import { TestimonialsSection } from "@/components/global/testimonials-section";
 import { TransformSection } from "@/components/global/transform-section";
@@ -18,7 +20,9 @@ export default function Home() {
           <EfficiencySection />
           <DiscoverSection />
           <TestimonialsSection />
+          <NewsletterSection />
         </main>
+        <SiteFooter />
       </div>
     </div>
   );
