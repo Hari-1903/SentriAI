@@ -1,3 +1,4 @@
+import { DiscoverSection } from "@/components/global/discover-section";
 import { EfficiencySection } from "@/components/global/efficiency-section";
 import { FeaturesSection } from "@/components/global/features-section";
 import { HeroSection } from "@/components/global/hero-section";
@@ -14,6 +15,7 @@ export default function Home() {
           <TransformSection />
           <FeaturesSection />
           <EfficiencySection />
+          <DiscoverSection />
         </main>
       </div>
     </div>

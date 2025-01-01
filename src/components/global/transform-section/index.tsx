@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 export function TransformSection() {
   return (
-    <section className="container w-full mx-auto px-4 py-20 mt-20">
+    <section className="container w-full mx-auto px-4 py-20 mt-10">
       <div className="grid grid-cols-1 gap-20 lg:grid-cols-2">
         <div className="flex items-center justify-center">
           <Image
