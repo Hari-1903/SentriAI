@@ -123,7 +123,7 @@ const ReportComponent = ({ onReportConfirmation }: Props) => {
         }
         setIsLoading(true);
 
-        const response = await fetch("/api/extractreportgemini", {
+        const response = await fetch("/api/extractreport", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -159,14 +159,14 @@ const ReportComponent = ({ onReportConfirmation }: Props) => {
                 <Input type='file'
                     // accept='image/*' 
                     onChange={handleReportSelection} />
-                <Button onClick={extractDetails}>1. Upload File</Button>
-                <Label>Report Summary</Label>
+                <Button onClick={extractDetails}>Upload File</Button>
+                <Label>Report Data</Label>
                 <Textarea
                     value={reportData}
                     onChange={(e) => {
                         setReportData(e.target.value);
                     }}
-                    placeholder="Extracted data from the report will appear here. Get better recommendations by providing additional patient history and symptoms..."
+                    placeholder="Extracted Data from the report. Additional data can be added for better analysis."
                     className="min-h-72 resize-none border-0 p-3 shadow-none focus-visible:ring-0" />
                 <Button
                     variant="destructive"
@@ -175,7 +175,7 @@ const ReportComponent = ({ onReportConfirmation }: Props) => {
                         onReportConfirmation(reportData);
                     }}
                 >
-                    2. Looks Good
+                    Verify and Submit
                 </Button>
             </fieldset>
         </div>
