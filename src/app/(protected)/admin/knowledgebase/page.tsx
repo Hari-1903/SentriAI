@@ -8,6 +8,7 @@ import { Label } from '@radix-ui/react-label'
 import { Database, LucideLoader2, MoveUp, RefreshCcw } from 'lucide-react'
 import React, { useState } from 'react'
 
+import { SiteHeader } from "@/components/global/site-header";
 
 const vectorDBPage = () => {  
     const [isUploading, setisUploading] = useState(false);
@@ -69,6 +70,7 @@ const vectorDBPage = () => {
     
     return (
     <div>
+    <SiteHeader/>
       <main className='flex flex-col  items-center p-24'>
         <Card>
             <CardHeader>
