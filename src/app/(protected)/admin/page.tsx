@@ -4,32 +4,30 @@ import { Button } from "@/components/ui/button";
 import { Download, Users, CreditCard, Activity } from "lucide-react";
 import { UserNav } from "@/components/admin/user-nav";
 import { MainNav } from "@/components/admin/main-nav";
-import { Search } from "@/components/admin/search";
 import { Overview } from "@/components/admin/overview";
 import VectorDBPage from "@/components/admin/knowledgebase";
+import Image from "next/image";
 
 export default function DashboardPage() {
   return (
-    <div className="hidden flex-col md:flex">
-      <div className="border-b">
-        <div className="flex h-16 items-center px-4">
-          <div className="flex items-center space-x-4">
-            <UserNav />
-          </div>
-          <MainNav className="mx-6" />
-          <div className="ml-auto flex items-center space-x-4">
-            <Search />
-          </div>
-        </div>
-      </div>
-      <div className="flex-1 space-y-4 p-8 pt-3 pb-3">
-        <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+    <div className='flex min-h-screen flex-col bg-[#F6F5FC] transition-opacity duration-500'>
+      <div className="border-b bg-[#FEFEFE]">
+              <div className="flex h-16 items-center px-4">
+                <div className="flex items-center space-x-4">
+                  <UserNav />
+                </div>
+                <MainNav className="mx-6" />
+                <div className="ml-auto flex items-center space-x-4">
+                   <Image src="/logo.png" alt="search" width={110} height={110} />
+                </div>
+              </div>
+            </div>
+      <div className="flex-1 space-y-4 p-8 pt-6 pb-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-3xl font-bold tracking-tight text-[#3267FF]">Dashboard</h2>
           <div className="flex items-center space-x-2">
-            <Button>
-              <Download className="mr-2 h-4 w-4" />
-              Download
-            </Button>
+            <Button className="bg-[#F9D47E] text-black hover:bg-[#F9D47E]/90">Download</Button>
+            <Button className="bg-[#3267FF] hover:bg-[#3267FF]/90">Export</Button>
           </div>
         </div>
         <Tabs defaultValue="overview" className="space-y-4">

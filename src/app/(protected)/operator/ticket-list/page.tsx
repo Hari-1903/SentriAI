@@ -1,8 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { NavBar } from "@/components/client/nav-bar"
+import { MainNav } from "@/components/operator/nav-bar"
+import { UserNav } from "@/components/operator/user-nav"
 import { Input } from "@/components/ui/input"
+import Image from "next/image"
 import {
   Table,
   TableBody,
@@ -81,26 +83,34 @@ export default function OperatorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <NavBar />
-      <main className="container mx-auto py-6">
+    <div className="flex min-h-screen flex-col bg-[#F6F5FC] transition-opacity duration-500">
+      <div className="border-b bg-[#FEFEFE]">
+        <div className="flex h-16 items-center px-4">
+          <div className="flex items-center space-x-4">
+            <UserNav />
+          </div>
+          <MainNav className="mx-6" />
+          <div className="ml-auto flex items-center space-x-4">
+            <Image src="/logo.png" alt="search" width={110} height={110} />
+          </div>
+        </div>
+      </div>
+      <main className="flex-1 p-8 pt-6">
         <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold">Welcome back!</h1>
-            <p className="text-muted-foreground">Here's a list of complaints for this month!</p>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold tracking-tight text-[#3267FF]">Ticket Priority</h2>
           </div>
           <div className="flex gap-4">
-            <div className="bg-muted/50 p-4 rounded-lg">
+            <div className="bg-[#FEFEFE] shadow-sm p-4 rounded-lg">
               <p className="text-sm text-muted-foreground">Pending Complaints</p>
               <p className="text-2xl font-bold">{stats.pending}</p>
             </div>
-            <div className="bg-muted/50 p-4 rounded-lg">
+            <div className="bg-[#FEFEFE] shadow-sm  p-4 rounded-lg">
               <p className="text-sm text-muted-foreground">Completed</p>
               <p className="text-2xl font-bold">{stats.completed}</p>
             </div>
           </div>
         </div>
-
         <div className="flex gap-4 mb-6">
           <Input placeholder="Filter complaints..." className="max-w-sm" />
           <Select defaultValue="all">

@@ -6,7 +6,6 @@ import { UserNav } from "@/components/client/user-nav"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Search } from "@/components/client/search"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger,} from "@/components/ui/dialog"
@@ -16,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { PlusCircle, CheckCircle, AlertCircle, Clock } from 'lucide-react'
 import type { Complaint, ComplaintType } from "@/types/complaint"
+import Image from "next/image"
 
 // Mock data - replace with actual API call
 const initialComplaints: Complaint[] = [
@@ -114,7 +114,7 @@ export default function ClientPage() {
           </div>
           <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
-             <Search />
+            <Image src="/logo.png" alt="search" width={110} height={110} />
           </div>
         </div>
       </div>

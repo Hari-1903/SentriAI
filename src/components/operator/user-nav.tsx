@@ -15,18 +15,18 @@ export function UserNav() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-10 w-10 shadow-sm">
             <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-            <AvatarFallback>AD</AvatarFallback>
+            <AvatarFallback>O1</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Admin</p>
+            <p className="text-sm font-medium leading-none">Operator 1</p>
             <p className="text-xs leading-none text-muted-foreground">
-              admin@techathon.com
+              Operator@example.com
             </p>
           </div>
         </DropdownMenuLabel>

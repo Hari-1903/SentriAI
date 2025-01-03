@@ -11,28 +11,28 @@ export function MainNav({
       {...props}
     >
       <Link
-        href="/client"
+        href="/operator"
         className="text-sm font-medium transition-colors hover:text-primary"
       >
         Overview
       </Link>
       <Link
-        href="/client/raise-ticket"
+        href="/operator/ticket-list"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Raise Ticket
+        Ticket List
       </Link>
       <Link
-        href="/client/FAQ's"
+        href="/operator/query"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        FAQ's
+        AI Query
       </Link>
       <Link
-        href="/client/settings"
+        href="/operator/settings"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Request Callback
+        Callback schedule
       </Link>
     </nav>
   );
