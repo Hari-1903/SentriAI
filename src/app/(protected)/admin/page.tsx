@@ -2,12 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Download, Users, CreditCard, Activity } from "lucide-react";
-import { UserNav } from "@/components/global/admin-dashboard/user-nav";
-import { MainNav } from "@/components/global/admin-dashboard/main-nav";
-import { Search } from "@/components/global/admin-dashboard/search";
-import { CalendarDateRangePicker } from "@/components/global/admin-dashboard/date-range-picker";
-import { Overview } from "@/components/global/admin-dashboard/overview";
-import { RecentSales } from "@/components/global/admin-dashboard/recent-sales";
+import { UserNav } from "@/components/admin/user-nav";
+import { MainNav } from "@/components/admin/main-nav";
+import { Search } from "@/components/admin/search";
+import { Overview } from "@/components/admin/overview";
+import VectorDBPage from "@/components/admin/knowledgebase";
 
 export default function DashboardPage() {
   return (
@@ -23,11 +22,10 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-      <div className="flex-1 space-y-4 p-8 pt-6">
+      <div className="flex-1 space-y-4 p-8 pt-3 pb-3">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
           <div className="flex items-center space-x-2">
-            <CalendarDateRangePicker />
             <Button>
               <Download className="mr-2 h-4 w-4" />
               Download
@@ -127,14 +125,8 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
               <Card className="col-span-3">
-                <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
-                  <p className="text-sm text-muted-foreground">
-                    You made 265 sales this month.
-                  </p>
-                </CardHeader>
                 <CardContent>
-                  <RecentSales />
+                  <VectorDBPage />
                 </CardContent>
               </Card>
             </div>

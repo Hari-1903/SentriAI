@@ -8,7 +8,6 @@ import { Label } from '@radix-ui/react-label'
 import { Database, LucideLoader2, MoveUp, RefreshCcw } from 'lucide-react'
 import React, { useState } from 'react'
 
-import { SiteHeader } from "@/components/global/site-header";
 
 const vectorDBPage = () => {  
     const [isUploading, setisUploading] = useState(false);
@@ -69,16 +68,13 @@ const vectorDBPage = () => {
     }
     
     return (
-    <div>
-    <SiteHeader/>
-      <main className='flex flex-col  items-center p-24'>
-        <Card>
+        <div className='h-full'>
             <CardHeader>
                 <CardTitle> Update Knowledge Base</CardTitle>
                 <CardDescription>Add new document to vector DB</CardDescription>
             </CardHeader>
             <CardContent>
-                <div className='grid grid-cols-3 gap-4'>
+                <div className='grid gap-4'>
                     <div className='col-span-2 grid gap-4 border rounded-lg p-6'>
                         <div className='gap-4 relative'>
                             <Button onClick={onfilelistrefresh} className='absolute -right-4 -top-4' variant={'ghost'} size={'icon'}>
@@ -104,13 +100,13 @@ const vectorDBPage = () => {
                             </div>
                         </div>   
                     </div>
-                    <Button onClick={onStartUpload} variant={'outline'} className='w-full h-full' disabled={isUploading} >
+                </div>
+                <Button onClick={onStartUpload} variant={'outline'} className='w-full h-full' disabled={isUploading} >
                         <span className='flex flex-row>'>
                             <Database size={50}/>
                             <MoveUp className='stroke-red-500'/>
                         </span>
-                    </Button>
-                </div>
+                </Button>
                 {isUploading && <div className='mt-4'>
                     <Label>File Name : {filename}</Label>
                     <div className='flex flex-row items-center gap-4'>
@@ -119,9 +115,7 @@ const vectorDBPage = () => {
                     </div>
                 </div>}
             </CardContent>
-        </Card>
-      </main>
-    </div>
+        </div>
   )
 }
 
