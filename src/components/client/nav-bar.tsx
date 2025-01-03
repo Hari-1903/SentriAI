@@ -1,42 +1,39 @@
-"use client"
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
-import Link from "next/link"
-import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
-
-const menuItems = [
-  { name: "Overview", href: "/" },
-  { name: "Customers", href: "/customers" },
-  { name: "Products", href: "/products" },
-  { name: "Settings", href: "/settings" },
-]
-
-export function NavBar() {
+export function MainNav({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLElement>) {
   return (
-    <nav className="flex items-center justify-between px-6 h-14 border-b">
-      <div className="flex items-center space-x-8">
-        <Link href="/" className="font-semibold text-xl">
-          AK
-        </Link>
-        <div className="flex items-center space-x-6">
-          {menuItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "text-sm text-muted-foreground hover:text-primary transition-colors",
-                item.name === "Overview" && "text-primary font-medium"
-              )}
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
-      </div>
-      <div className="w-72">
-        <Input type="search" placeholder="Search..." className="w-full" />
-      </div>
+    <nav
+      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
+      {...props}
+    >
+      <Link
+        href="/client"
+        className="text-sm font-medium transition-colors hover:text-primary"
+      >
+        Overview
+      </Link>
+      <Link
+        href="/client/raise-ticket"
+        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+      >
+        Raise Ticket
+      </Link>
+      <Link
+        href="/dashboard/products"
+        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+      >
+        FAQ's
+      </Link>
+      <Link
+        href="/dashboard/settings"
+        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+      >
+        Request Callback
+      </Link>
     </nav>
-  )
+  );
 }
-
