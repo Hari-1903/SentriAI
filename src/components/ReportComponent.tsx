@@ -3,18 +3,21 @@ import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
 import { Label } from './ui/label'
-// import { toast } from 'sonner'
 import { useToast } from "@/components/ui/use-toast"
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+// import { motion } from 'framer-motion'
 
 type Props = {
     onReportConfirmation: (data: string) => void
 }
+
 const ReportComponent = ({ onReportConfirmation }: Props) => {
     const { toast } = useToast()
 
     const [base64Data, setBase64Data] = useState('')
     const [isLoading, setIsLoading] = useState(false);
     const [reportData, setReportData] = useState("");
+
     function handleReportSelection(event: ChangeEvent<HTMLInputElement>): void {
 
         // Step 1: Check if there are files in the event target
@@ -144,42 +147,47 @@ const ReportComponent = ({ onReportConfirmation }: Props) => {
     }
 
     return (
-        // <div className="grid w-full items-start gap-6">
-        <div className="grid w-full items-start gap-6 overflow-auto p-4 pt-0">
-            <fieldset className='relative grid gap-6 rounded-lg border p-4'>
-                <legend className="text-sm font-medium">Report</legend>
-                {isLoading && (
-                    <div
-                        className={"absolute z-10 h-full w-full bg-card/90 rounded-lg flex flex-row items-center justify-center"
-                        }
-                    >
-                        extracting...
-                    </div>
-                )}
-                <Input type='file'
-                    // accept='image/*' 
-                    onChange={handleReportSelection} />
-                <Button onClick={extractDetails}>Upload File</Button>
-                <Label>Report Data</Label>
-                <Textarea
-                    value={reportData}
-                    onChange={(e) => {
-                        setReportData(e.target.value);
-                    }}
-                    placeholder="Extracted Data from the report. Additional data can be added for better analysis."
-                    className="min-h-72 resize-none border-0 p-3 shadow-none focus-visible:ring-0" />
+        <Card className="w-full">
+            <CardHeader>
+                <CardTitle className="text-xl font-bold ">Report Analysis</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="space-y-2">
+                    <Label htmlFor="file-upload">Upload Report</Label>
+                    <Input
+                        id="file-upload"
+                        type="file"
+                        onChange={handleReportSelection}
+                        className="cursor-pointer"
+                    />
+                </div>
+                <Button 
+                    onClick={extractDetails}
+                    className="w-full bg-[#3267FF]/80 hover:bg-[#3267FF]"
+                    disabled={isLoading}
+                >
+                    {isLoading ? "Extracting..." : "Extract Details"}
+                </Button>
+                <div className="space-y-2">
+                    <Label htmlFor="report-data">Report Data</Label>
+                    <Textarea
+                        id="report-data"
+                        value={reportData}
+                        onChange={(e) => setReportData(e.target.value)}
+                        placeholder="Extracted data from the report. Additional data can be added for better analysis."
+                        className="min-h-[200px] resize-none"
+                    />
+                </div>
                 <Button
-                    variant="destructive"
-                    className="bg-[#D90013]"
-                    onClick={() => {
-                        onReportConfirmation(reportData);
-                    }}
+                    onClick={() => onReportConfirmation(reportData)}
+                    className="w-full bg-[#3267FF]/80 hover:bg-[#3267FF]"
                 >
                     Verify and Submit
                 </Button>
-            </fieldset>
-        </div>
+            </CardContent>
+        </Card>
     )
 }
 
 export default ReportComponent
+

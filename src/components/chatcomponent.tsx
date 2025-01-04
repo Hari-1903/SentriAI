@@ -2,64 +2,75 @@ import React from 'react'
 import { Textarea } from './ui/textarea'
 import { useChat } from 'ai/react';
 import { Button } from './ui/button';
-import { CornerDownLeft, Loader2, TextSearch } from 'lucide-react';
+import { CornerDownLeft, Loader2 } from 'lucide-react';
 import { Badge } from './ui/badge';
 import Messages from './messages';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { motion } from 'framer-motion';
 
 type Props = {
   reportData?: string
 }
 
 const ChatComponent = ({ reportData }: Props) => {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, data } =
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
       api: "/api/chatgemini",
     });
-  return (
-    <div className="h-full bg-muted/50 relative flex flex-col min-h-[50vh] rounded-xl p-4 gap-4">
-      <Badge variant={'outline'}
-        className={`absolute right-3 top-1.5 ${reportData && "bg-[#00B612]"}`}
-      >
-        {reportData ? "✓ Report Added" : "No Report Added"}
 
-      </Badge>
-      <div className="flex-1" />
-      <Messages messages={messages} isLoading={isLoading} />
-      <form
-        className="relative overflow-hidden rounded-lg border bg-background"
-        onSubmit={(event) => {
-          event.preventDefault();
-          handleSubmit(event, {
-            data: {
-              reportData: reportData as string,
-            },
-          });
-        }}
-      >
-        <Textarea
-          value={input}
-          onChange={handleInputChange}
-          placeholder="Type your query here..."
-          className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
-        />
-        <div className="flex items-center p-3 pt-0">
+  return (
+    <Card className="w-full h-full flex flex-col">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-xl font-bold">AI Assistant</CardTitle>
+        <Badge variant={'outline'}
+          className={`${reportData ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}
+        >
+          {reportData ? "✓ Report Added" : "No Report Added"}
+        </Badge>
+      </CardHeader>
+      <CardContent className="flex-grow flex flex-col space-y-4">
+        <div className="flex-grow overflow-auto">
+          <Messages messages={messages} isLoading={isLoading} />
+        </div>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            handleSubmit(event, {
+              data: {
+                reportData: reportData as string,
+              },
+            });
+          }}
+          className="space-y-4"
+        >
+          <Textarea
+            value={input}
+            onChange={handleInputChange}
+            placeholder="Type your query here..."
+            className="min-h-[100px] resize-none"
+          />
           <Button
-            disabled={isLoading}
             type="submit"
-            size="sm"
-            className="ml-auto"
+            className="w-full bg-[#3267FF]/80 hover:bg-[#3267FF]"
+            disabled={isLoading}
           >
-            {isLoading ? "Analysing..." : "Ask"}
             {isLoading ? (
-              <Loader2 className="size-3.5 animate-spin" />
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Analyzing...
+              </>
             ) : (
-              <CornerDownLeft className="size-3.5" />
+              <>
+                <CornerDownLeft className="mr-2 h-4 w-4" />
+                Ask
+              </>
             )}
           </Button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </CardContent>
+    </Card>
   )
 }
 
 export default ChatComponent
+

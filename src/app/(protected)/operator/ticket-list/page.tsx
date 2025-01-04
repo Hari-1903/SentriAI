@@ -23,7 +23,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { MoreHorizontal } from 'lucide-react'
+import { ChevronDown, MoreHorizontal } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -39,6 +39,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Label } from "@/components/ui/label"
 import type { Complaint, ComplaintStatus } from "@/types/complaint"
+import { motion, AnimatePresence } from "framer-motion"
+import { fadeIn, staggerContainer } from "@/lib/utils"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 // Mock data - replace with actual API call
 const initialComplaints: Complaint[] = [
@@ -62,13 +65,36 @@ const initialComplaints: Complaint[] = [
     createdAt: "2024-01-02T09:00:00Z",
     updatedAt: "2024-01-02T09:00:00Z"
   },
-  // Add more complaints as needed
+  {
+    id: "TASK-6543",
+    title: "Update employee handbook",
+    details: "The current employee handbook is outdated. It needs to be updated with the new policies.",
+    type: "Documentation",
+    status: "completed",
+    priority: "low",
+    createdAt: "2024-01-01T11:00:00Z",
+    updatedAt: "2024-01-04T14:00:00Z"
+  },
+  {
+    id: "TASK-5432",
+    title: "Implement new security protocols",
+    details: "We need to implement the new security protocols as discussed in the last meeting.",
+    type: "Feature",
+    status: "completed",
+    priority: "high",
+    createdAt: "2023-12-28T13:00:00Z",
+    updatedAt: "2024-01-03T16:00:00Z"
+  },
 ]
 
-export default function OperatorPage() {
+export default function TicketListPage() {
   const [complaints, setComplaints] = useState<Complaint[]>(initialComplaints)
   const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null)
-  
+  const [showCompleted, setShowCompleted] = useState(false)
+
+  const activeComplaints = complaints.filter(c => c.status !== "completed")
+  const completedComplaints = complaints.filter(c => c.status === "completed")
+
   const stats = {
     pending: complaints.filter(c => c.status !== "completed").length,
     completed: complaints.filter(c => c.status === "completed").length
@@ -83,7 +109,12 @@ export default function OperatorPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F6F5FC] transition-opacity duration-500">
+    <motion.div
+      variants={staggerContainer()}
+      initial="hidden"
+      animate="show"
+      className="flex min-h-screen flex-col bg-[#F6F5FC]"
+    >
       <div className="border-b bg-[#FEFEFE]">
         <div className="flex h-16 items-center px-4">
           <div className="flex items-center space-x-4">
@@ -95,37 +126,42 @@ export default function OperatorPage() {
           </div>
         </div>
       </div>
-      <main className="flex-1 p-8 pt-6">
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold tracking-tight text-[#3267FF]">Ticket Priority</h2>
-          </div>
-          <div className="flex gap-4">
-            <div className="bg-[#FEFEFE] shadow-sm p-4 rounded-lg">
-              <p className="text-sm text-muted-foreground">Pending Complaints</p>
-              <p className="text-2xl font-bold">{stats.pending}</p>
-            </div>
-            <div className="bg-[#FEFEFE] shadow-sm  p-4 rounded-lg">
-              <p className="text-sm text-muted-foreground">Completed</p>
-              <p className="text-2xl font-bold">{stats.completed}</p>
-            </div>
+      <motion.main variants={fadeIn()} className="flex-1 p-8 pt-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-3xl font-bold tracking-tight text-[#3267FF]">Ticket Priority</h2>
+          <div className="flex items-center space-x-2">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="bg-red-100 shadow-md px-4 py-1 rounded-lg transition-all duration-300 flex justify-center items-center flex-col"
+            >
+              <p className="text-sm ">Pending</p>
+              <p className="text-xl font-bold">{stats.pending}</p>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="bg-green-100 shadow-md py-1 px-3 rounded-lg transition-all duration-300 flex justify-center items-center flex-col"
+            >
+              <p className="text-sm">Completed</p>
+              <p className="text-xl font-bold">{stats.completed}</p>
+            </motion.div>
           </div>
         </div>
+
         <div className="flex gap-4 mb-6">
-          <Input placeholder="Filter complaints..." className="max-w-sm" />
+          <Input placeholder="Filter complaints..." className="max-w-sm shadow-sm" />
           <Select defaultValue="all">
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] shadow-sm">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Status</SelectItem>
               <SelectItem value="todo">Todo</SelectItem>
               <SelectItem value="in_progress">In Progress</SelectItem>
-              <SelectItem value="completed">Completed</SelectItem>
+              <SelectItem value="pending">Pending</SelectItem>
             </SelectContent>
           </Select>
           <Select defaultValue="all">
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] shadow-sm">
               <SelectValue placeholder="Priority" />
             </SelectTrigger>
             <SelectContent>
@@ -137,89 +173,161 @@ export default function OperatorPage() {
           </Select>
         </div>
 
-        <div className="border rounded-lg">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-12">
-                  <Checkbox />
-                </TableHead>
-                <TableHead>Task</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Priority</TableHead>
-                <TableHead className="w-[150px]">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {complaints.map((complaint) => (
-                <TableRow key={complaint.id}>
-                  <TableCell>
-                    <Checkbox />
-                  </TableCell>
-                  <TableCell>
-                    <div>
-                      <div className="font-medium">{complaint.title}</div>
-                      <div className="text-sm text-muted-foreground">{complaint.id}</div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">{complaint.type}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Select
-                      value={complaint.status}
-                      onValueChange={(value: ComplaintStatus) => 
-                        updateComplaintStatus(complaint.id, value)
-                      }
-                    >
-                      <SelectTrigger className="w-[130px]">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="todo">Todo</SelectItem>
-                        <SelectItem value="in_progress">In Progress</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="completed">Completed</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={complaint.priority === "high" ? "destructive" : "secondary"}>
-                      {complaint.priority.charAt(0).toUpperCase() + complaint.priority.slice(1)}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setSelectedComplaint(complaint)}
-                      >
-                        View Details
-                      </Button>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <MoreHorizontal className="w-4 h-4" />
-                            <span className="sr-only">Actions</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem 
-                            onClick={() => updateComplaintStatus(complaint.id, "completed")}
-                          >
-                            Mark as Completed
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </TableCell>
+        <Card className="mb-6">
+          <CardHeader className="shadow-sm">
+            <CardTitle >Active Tickets</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-12">
+                  </TableHead>
+                  <TableHead>Task</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Priority</TableHead>
+                  <TableHead className="w-[150px]">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+              </TableHeader>
+              <TableBody>
+                {activeComplaints.map((complaint) => (
+                  <TableRow key={complaint.id}>
+                    <TableCell>
+                      <Checkbox />
+                    </TableCell>
+                    <TableCell>
+                      <div>
+                        <div className="font-medium">{complaint.title}</div>
+                        <div className="text-sm text-muted-foreground">{complaint.id}</div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">{complaint.type}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Select
+                        value={complaint.status}
+                        onValueChange={(value: ComplaintStatus) => 
+                          updateComplaintStatus(complaint.id, value)
+                        }
+                      >
+                        <SelectTrigger className="w-[130px]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="todo">Todo</SelectItem>
+                          <SelectItem value="in_progress">In Progress</SelectItem>
+                          <SelectItem value="pending">Pending</SelectItem>
+                          <SelectItem value="completed">Completed</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={complaint.priority === "high" ? "destructive" : "secondary"}>
+                        {complaint.priority.charAt(0).toUpperCase() + complaint.priority.slice(1)}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSelectedComplaint(complaint)}
+                        >
+                          View Details
+                        </Button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <MoreHorizontal className="w-4 h-4" />
+                              <span className="sr-only">Actions</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem 
+                              onClick={() => updateComplaintStatus(complaint.id, "completed")}
+                            >
+                              Mark as Completed
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader 
+            className="cursor-pointer"
+            onClick={() => setShowCompleted(!showCompleted)}
+          >
+            <CardTitle className="text-md font-light flex items-center justify-between">
+              Completed Tickets
+              <ChevronDown className={`w-6 h-6 transition-transform ${showCompleted ? 'transform rotate-180' : ''}`} />
+            </CardTitle>
+          </CardHeader>
+          <AnimatePresence>
+            {showCompleted && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <CardContent className="p-0">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className=" pl-4">Task</TableHead>
+                        <TableHead>Type</TableHead>
+                        <TableHead>Priority</TableHead>
+                        <TableHead>Completed Date</TableHead>
+                        <TableHead className="w-[150px]">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {completedComplaints.map((complaint) => (
+                        <TableRow key={complaint.id}>
+                          <TableCell>
+                            <div>
+                              <div className="font-medium ml-2">{complaint.title}</div>
+                              <div className="text-sm text-muted-foreground ml-2">{complaint.id}</div>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="secondary">{complaint.type}</Badge>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant={complaint.priority === "high" ? "destructive" : "secondary"}>
+                              {complaint.priority.charAt(0).toUpperCase() + complaint.priority.slice(1)}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            {new Date(complaint.updatedAt).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setSelectedComplaint(complaint)}
+                            >
+                              View Details
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Card>
 
         <Dialog open={!!selectedComplaint} onOpenChange={() => setSelectedComplaint(null)}>
           <DialogContent className="max-w-2xl">
@@ -279,8 +387,9 @@ export default function OperatorPage() {
             )}
           </DialogContent>
         </Dialog>
-      </main>
-    </div>
+      </motion.main>
+    </motion.div>
   )
 }
+
 

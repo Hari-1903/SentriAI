@@ -9,13 +9,17 @@ type Props = {
 
 const MessageBox = ({ role, content }: Props) => {
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="p-6 text-sm">
-        {/* {content} */}
-        <Markdown text={content} />
+    <Card className={`overflow-hidden ${role === 'user' ? 'bg-blue-50' : 'bg-white'}`}>
+      <CardContent className="p-4">
+        <div className="text-sm font-semibold mb-2">
+          {role === 'user' ? 'You' : 'AI Assistant'}
+        </div>
+        <div className="text-sm">
+          <Markdown text={content} />
+        </div>
       </CardContent>
       {role !== "user" && (
-        <CardFooter className="border-t bg-muted/50 px-6 py-3 text-xs text-muted-foreground">
+        <CardFooter className="border-t bg-muted/50 px-4 py-2 text-xs text-muted-foreground">
           Verify the information before taking any action
         </CardFooter>
       )}
@@ -24,3 +28,4 @@ const MessageBox = ({ role, content }: Props) => {
 }
 
 export default MessageBox
+
