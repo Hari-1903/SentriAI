@@ -1,8 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { MainNav } from "@/components/client/nav-bar"
-import { UserNav } from "@/components/client/user-nav"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -71,7 +69,7 @@ const initialComplaints: Complaint[] = [
   },
 ]
 
-export default function ClientPage() {
+export default function RaiseTicket() {
   
   const [complaints, setComplaints] = useState<Complaint[]>(initialComplaints)
   const [newComplaint, setNewComplaint] = useState({
@@ -106,26 +104,7 @@ export default function ClientPage() {
   }
 
   return (
-    <div className={`flex min-h-screen flex-col bg-[#F6F5FC] transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-      <div className="border-b bg-[#FEFEFE]">
-        <div className="flex h-16 items-center px-4">
-          <div className="flex items-center space-x-4">
-            <UserNav />
-          </div>
-          <MainNav className="mx-6" />
-          <div className="ml-auto flex items-center space-x-4">
-            <Image src="/logo.png" alt="search" width={110} height={110} />
-          </div>
-        </div>
-      </div>
-      <main className="flex-1 p-8 pt-6">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold tracking-tight text-[#3267FF]">Tickets Overview</h2>
-          <div className="flex items-center space-x-2">
-            <Button className="bg-[#F9D47E] text-black hover:bg-[#F9D47E]/90">Download</Button>
-            <Button className="bg-[#3267FF] hover:bg-[#3267FF]/90">Export</Button>
-          </div>
-        </div>
+    <main className="flex-1">
         <div className="grid gap-8 md:grid-cols-3 mb-8">
           <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg md:col-span-2">
             <CardHeader>
@@ -312,8 +291,7 @@ export default function ClientPage() {
             </ScrollArea>
           </CardContent>
         </Card>
-      </main>
-    </div>
+    </main>
   )
 }
 

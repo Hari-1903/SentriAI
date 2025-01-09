@@ -68,7 +68,7 @@ const vectorDBPage = () => {
     }
     
     return (
-        <div className='h-full'>
+        <Card className='h-full'>
             <CardHeader>
                 <CardTitle> Update Knowledge Base</CardTitle>
                 <CardDescription>Add new document to vector DB</CardDescription>
@@ -115,7 +115,7 @@ const vectorDBPage = () => {
                     </div>
                 </div>}
             </CardContent>
-        </div>
+        </Card>
   )
 }
 

@@ -87,7 +87,7 @@ const initialComplaints: Complaint[] = [
   },
 ]
 
-export default function TicketListPage() {
+export default function TicketList() {
   const [complaints, setComplaints] = useState<Complaint[]>(initialComplaints)
   const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null)
   const [showCompleted, setShowCompleted] = useState(false)
@@ -113,44 +113,14 @@ export default function TicketListPage() {
       variants={staggerContainer()}
       initial="hidden"
       animate="show"
-      className="flex min-h-screen flex-col bg-[#F6F5FC]"
-    >
-      <div className="border-b bg-[#FEFEFE]">
-        <div className="flex h-16 items-center px-4">
-          <div className="flex items-center space-x-4">
-            <UserNav />
-          </div>
-          <MainNav className="mx-6" />
-          <div className="ml-auto flex items-center space-x-4">
-            <Image src="/logo.png" alt="search" width={110} height={110} />
-          </div>
-        </div>
-      </div>
-      <motion.main variants={fadeIn()} className="flex-1 p-8 pt-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-3xl font-bold tracking-tight text-[#3267FF]">Ticket Priority</h2>
-          <div className="flex items-center space-x-2">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="bg-red-100 shadow-md px-4 py-1 rounded-lg transition-all duration-300 flex justify-center items-center flex-col"
-            >
-              <p className="text-sm ">Pending</p>
-              <p className="text-xl font-bold">{stats.pending}</p>
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="bg-green-100 shadow-md py-1 px-3 rounded-lg transition-all duration-300 flex justify-center items-center flex-col"
-            >
-              <p className="text-sm">Completed</p>
-              <p className="text-xl font-bold">{stats.completed}</p>
-            </motion.div>
-          </div>
-        </div>
-
-        <div className="flex gap-4 mb-6">
+      className="flex flex-col bg-[#F6F5FC]"
+    >   
+      <motion.main variants={fadeIn()} className="flex-1">
+        <div className="flex justify-between items-center mb-6 ">
+            <div className="flex gap-4 items-center">
           <Input placeholder="Filter complaints..." className="max-w-sm shadow-sm" />
           <Select defaultValue="all">
-            <SelectTrigger className="w-[180px] shadow-sm">
+            <SelectTrigger className="w-[200px] shadow-sm">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -161,7 +131,7 @@ export default function TicketListPage() {
             </SelectContent>
           </Select>
           <Select defaultValue="all">
-            <SelectTrigger className="w-[180px] shadow-sm">
+            <SelectTrigger className="w-[200px] shadow-sm">
               <SelectValue placeholder="Priority" />
             </SelectTrigger>
             <SelectContent>
@@ -171,8 +141,24 @@ export default function TicketListPage() {
               <SelectItem value="low">Low</SelectItem>
             </SelectContent>
           </Select>
+            </div>
+            <div className="flex items-center gap-4">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="bg-red-100 shadow-md px-4 py-1 rounded-lg transition-all duration-300 flex justify-center items-center flex-col"
+            >
+              <p className="text-sm ">Pending</p>
+              <p className="text-lg font-bold">{stats.pending}</p>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="bg-green-100 shadow-md py-1 px-3 rounded-lg transition-all duration-300 flex justify-center items-center flex-col"
+            >
+              <p className="text-sm">Completed</p>
+              <p className="text-lg font-bold">{stats.completed}</p>
+            </motion.div>
+            </div>
         </div>
-
         <Card className="mb-6">
           <CardHeader className="shadow-sm">
             <CardTitle >Active Tickets</CardTitle>
