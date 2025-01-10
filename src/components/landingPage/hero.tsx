@@ -29,7 +29,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              Intelligence Redefined for BPO's workflow
+              Intelligence Redefined for BPO&apos;s workflow
               <br />
             </motion.h1>
             <motion.p

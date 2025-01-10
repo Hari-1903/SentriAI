@@ -6,7 +6,6 @@ import { CornerDownLeft, Loader2 } from 'lucide-react';
 import { Badge } from './ui/badge';
 import Messages from './messages';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { motion } from 'framer-motion';
 
 type Props = {
   reportData?: string

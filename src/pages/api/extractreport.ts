@@ -29,18 +29,16 @@ export default async function handler(req: Request) {
             const { base64 } = await req.json(); // Web API Request object supports .json()
             const filePart = fileToGenerativePart(base64);
 
-            const generatedContent = await model.generateContent([
-                prompt,
-                filePart,
-            ]);
+            const generatedContent = await model.generateContent([prompt, filePart]);
 
             const textResponse =
                 generatedContent.response.candidates![0].content.parts[0].text;
 
             return new Response(textResponse, { status: 200 });
         } catch (error) {
+            console.error(error); // Log the error to the console for debugging
             return new Response(
-                JSON.stringify({ error: "Internal Server Error" }),
+                JSON.stringify({ error: error instanceof Error ? error.message : "Internal Server Error" }),
                 { status: 500 }
             );
         }

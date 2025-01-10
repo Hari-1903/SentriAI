@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function LoginPage() {
   const [role, setRole] = useState("client");
-  const [inputs, setInputs] = useState<Inputs>({})
+  const [inputs, setInputs] = useState<Partial<Inputs>>({})
   const router = useRouter(); // Initialize the router
 
   interface Inputs {

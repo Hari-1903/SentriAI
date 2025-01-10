@@ -9,7 +9,7 @@ import { Database, LucideLoader2, MoveUp, RefreshCcw } from 'lucide-react'
 import React, { useState } from 'react'
 
 
-const vectorDBPage = () => {  
+const VectorDBPage = () => {  
     const [isUploading, setisUploading] = useState(false);
     const [indexname, setIndexname] = useState("");
     const [namespace, setNamespace] = useState("");
@@ -55,7 +55,7 @@ const vectorDBPage = () => {
                 const data=new TextDecoder().decode(value);
                 console.log(data);
 
-                const {filename, totalChunks, chunkUpserted, isComplete} = JSON.parse(data);
+                const {filename, totalChunks, chunkUpserted} = JSON.parse(data);
                 const currentProgress = (chunkUpserted/totalChunks)*100;
                 setprogress(currentProgress);
                 setfilename(`${filename}[${chunkUpserted}/${totalChunks}]`);
@@ -119,5 +119,5 @@ const vectorDBPage = () => {
   )
 }
 
-export default vectorDBPage
+export default VectorDBPage
 

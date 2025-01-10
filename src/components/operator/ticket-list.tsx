@@ -119,7 +119,7 @@ export default function TicketList() {
               </div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              {Object.entries(stats).map(([key, value], index) => (
+              {Object.entries(stats).map(([key, value]) => (
                 <Card key={key}>
                   <CardContent className="flex flex-col items-center justify-center p-4">
                     <p className="text-sm font-medium">{key.charAt(0).toUpperCase() + key.slice(1)}</p>
