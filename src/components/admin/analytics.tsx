@@ -1,159 +1,147 @@
 "use client";
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, CreditCard, Activity } from "lucide-react";
-
-const data = [
-  {
-    name: "Jan",
-    total: 2800,
-  },
-  {
-    name: "Feb",
-    total: 3200,
-  },
-  {
-    name: "Mar",
-    total: 2400,
-  },
-  {
-    name: "Apr",
-    total: 2800,
-  },
-  {
-    name: "May",
-    total: 2600,
-  },
-  {
-    name: "Jun",
-    total: 3800,
-  },
-  {
-    name: "Jul",
-    total: 2600,
-  },
-  {
-    name: "Aug",
-    total: 2400,
-  },
-  {
-    name: "Sep",
-    total: 3800,
-  },
-  {
-    name: "Oct",
-    total: 3600,
-  },
-  {
-    name: "Nov",
-    total: 2800,
-  },
-  {
-    name: "Dec",
-    total: 3600,
-  },
-];
+import { Users, CreditCard, Activity, BarChart2, Clock, TrendingUp } from 'lucide-react';
+import { useAppContext } from "@/context/AppContext";
 
 export function Analytics() {
+  const { complaints, scheduledCalls } = useAppContext();
+
+  const complaintStatusData = [
+    { name: "Open", value: complaints.filter(c => c.status === "open").length },
+    { name: "In Progress", value: complaints.filter(c => c.status === "in_progress").length },
+    { name: "Pending", value: complaints.filter(c => c.status === "pending").length },
+    { name: "Completed", value: complaints.filter(c => c.status === "completed").length },
+  ];
+
+  const complaintTypeData = [
+    { name: "Bug", value: complaints.filter(c => c.type === "Bug").length },
+    { name: "Feature", value: complaints.filter(c => c.type === "Feature").length },
+    { name: "Documentation", value: complaints.filter(c => c.type === "Documentation").length },
+  ];
+
+  const timeSaved = 120; 
+  const revenueGrowth = 15;
+
   return (
-    <div className="grid gap-4">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="space-y-4 md:space-y-6">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Revenue
+              Total Complaints
             </CardTitle>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="h-4 w-4 text-muted-foreground"
-            >
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-            </svg>
+            <BarChart2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
-            <p className="text-xs text-muted-foreground">+20.1% from last month</p>
+            <div className="text-2xl font-bold">{complaints.length}</div>
+            <p className="text-xs text-muted-foreground">
+              +{complaints.filter(c => new Date(c.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length} this week
+            </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Subscriptions
-            </CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+2,350</div>
-            <p className="text-xs text-muted-foreground">+180.1% from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sales</CardTitle>
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
-            <p className="text-xs text-muted-foreground">+19% from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Active Now
+              Open Complaints
             </CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
-            <p className="text-xs text-muted-foreground">+201 since last hour</p>
+            <div className="text-2xl font-bold">{complaints.filter(c => c.status === "open").length}</div>
+            <p className="text-xs text-muted-foreground">
+              {((complaints.filter(c => c.status === "open").length / complaints.length) * 100).toFixed(1)}% of total
+            </p>
           </CardContent>
         </Card>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <Card className="col-span-4">
-            <CardHeader>
-              <CardTitle>Overview</CardTitle>
-            </CardHeader>
-            <CardContent className="pl-2">
-            <ResponsiveContainer width="100%" height={340}>
-              <BarChart data={data}>
-                <XAxis
-                  dataKey="name"
-                  stroke="#888888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                  />
-                  <YAxis
-                  stroke="#888888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(value) => `$${value}`}
-                  />
-                  <Bar
-                  dataKey="total"
-                  fill="currentColor"
-                  radius={[4, 4, 0, 0]}
-                  className="fill-primary"
-                  />
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Scheduled Calls</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{scheduledCalls.length}</div>
+            <p className="text-xs text-muted-foreground">
+              Next call in {Math.floor(Math.random() * 24)} hours
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Completion Rate
+            </CardTitle>
+            <CreditCard className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {((complaints.filter(c => c.status === "completed").length / complaints.length) * 100).toFixed(1)}%
+            </div>
+            <p className="text-xs text-muted-foreground">
+              +{((complaints.filter(c => c.status === "completed" && new Date(c.updatedAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length / complaints.length) * 100).toFixed(1)}% this week
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card className=" md:col-span-2">
+          <CardHeader>
+            <CardTitle>Complaint Status Distribution</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[300px] flex">
+            <ResponsiveContainer width="50%" height="100%">
+              <BarChart data={complaintStatusData}>
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="value" fill="#3267FF" name="Complaints" />
               </BarChart>
             </ResponsiveContainer>
-            </CardContent>
-          </Card>
-          <Card className="col-span-3">
-            <CardContent>
-            </CardContent>
-          </Card>
-        </div>
+            <ResponsiveContainer width="50%" height="100%">
+              <BarChart data={complaintTypeData}>
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="value" fill="#F9D47E" name="Complaints" />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Time Saved
+            </CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{timeSaved} hours</div>
+            <p className="text-xs text-muted-foreground">
+              Estimated time saved this month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Revenue Growth
+            </CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{revenueGrowth}%</div>
+            <p className="text-xs text-muted-foreground">
+              Increase in revenue this quarter
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
+

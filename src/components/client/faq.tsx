@@ -59,7 +59,7 @@ export default function FAQ() {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="border-b border-gray-200 pb-4 last:border-b-0"
+              className="border-b border-gray-200 pb-4 last:border-b-0 last:pb-0"
             >
               <button
                 className="flex justify-between items-center w-full text-left"
@@ -92,3 +92,4 @@ export default function FAQ() {
     </Card>
   )
 }
+

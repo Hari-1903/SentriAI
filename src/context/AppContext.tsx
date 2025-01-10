@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-import type { Complaint, ComplaintStatus } from "@/types/complaint";
+import type { Complaint, ComplaintStatus, ComplaintPriority } from "@/types/complaint";
 
 interface ScheduledCall {
   name: string;
@@ -13,6 +13,7 @@ interface AppContextType {
   complaints: Complaint[];
   addComplaint: (complaint: Complaint) => void;
   updateComplaintStatus: (id: string, status: string) => void;
+  updateComplaintPriority: (id: string, priority: ComplaintPriority) => void;
   scheduledCalls: ScheduledCall[];
   addScheduledCall: (call: ScheduledCall) => void;
 }
@@ -148,7 +149,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   ]);
 
   const addComplaint = (complaint: Complaint) => {
-    setComplaints(prevComplaints => [...prevComplaints, complaint]);
+    setComplaints(prevComplaints => [complaint, ...prevComplaints]);
   };
 
   const updateComplaintStatus = (id: string, status: string) => {
@@ -159,12 +160,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  const updateComplaintPriority = (id: string, priority: ComplaintPriority) => {
+    setComplaints(prevComplaints =>
+      prevComplaints.map(complaint =>
+        complaint.id === id ? { ...complaint, priority, updatedAt: new Date().toISOString() } : complaint
+      )
+    );
+  };
+
   const addScheduledCall = (call: ScheduledCall) => {
     setScheduledCalls(prevCalls => [...prevCalls, call]);
   };
 
   return (
-    <AppContext.Provider value={{ complaints, addComplaint, updateComplaintStatus, scheduledCalls, addScheduledCall }}>
+    <AppContext.Provider value={{ complaints, addComplaint, updateComplaintStatus, updateComplaintPriority, scheduledCalls, addScheduledCall }}>
       {children}
     </AppContext.Provider>
   );
