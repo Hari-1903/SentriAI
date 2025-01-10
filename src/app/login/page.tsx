@@ -12,23 +12,12 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function LoginPage() {
   const [role, setRole] = useState("client");
-  const [inputs, setInputs] = useState<Partial<Inputs>>({})
+  const [inputs, setInputs] = useState<Partial<Record<string, string>>>({});
   const router = useRouter(); // Initialize the router
 
-  interface Inputs {
-    email?: string;
-    password?: string;
-    operatorId?: string;
-    operatorPassword?: string;
-    adminUsername?: string;
-    adminPassword?: string;
-  }
-
-  interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
-
-  const handleInputChange = (e: InputChangeEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setInputs((prev: Inputs) => ({ ...prev, [id]: value }));
+    setInputs((prev) => ({ ...prev, [id]: value }));
   };
 
   const isFormValid = () => {
