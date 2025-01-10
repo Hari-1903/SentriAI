@@ -1,10 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { MainNav } from "@/components/operator/nav-bar"
-import { UserNav } from "@/components/operator/user-nav"
 import { Input } from "@/components/ui/input"
-import Image from "next/image"
 import {
   Table,
   TableBody,

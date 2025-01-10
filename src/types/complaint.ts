@@ -1,4 +1,4 @@
-export type ComplaintStatus = "todo" | "in_progress" | "completed" | "pending"
+export type ComplaintStatus = "open" | "in_progress" | "completed" | "pending"
 export type ComplaintPriority = "low" | "medium" | "high"
 export type ComplaintType = "Bug" | "Feature" | "Documentation"
 
