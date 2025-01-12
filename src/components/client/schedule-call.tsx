@@ -13,6 +13,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { motion, AnimatePresence } from 'framer-motion'
 import { Textarea } from "@/components/ui/textarea"
 import { useAppContext } from "@/context/AppContext"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 const availableTimeSlots = [
   "09:00 AM", "10:00 AM", "11:00 AM",
@@ -59,26 +61,26 @@ export default function ScheduleCall() {
             <div className="space-y-2">
               <Label>Select Date</Label>
               <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  {/* <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    initialFocus
-                  /> */}
-                </PopoverContent>
+              <PopoverTrigger asChild>
+                <Button
+                variant={"outline"}
+                className={cn(
+                "w-full justify-start text-left font-normal",
+                !date && "text-muted-foreground"
+                )}
+                >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {date ? format(date, "PPP") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+              <DatePicker 
+              selected={date}
+              onChange={(selectedDate) => setDate(selectedDate ?? undefined)}
+              inline
+              minDate={new Date()} // Prevent past dates
+              />
+              </PopoverContent>
               </Popover>
             </div>
             <div className="space-y-2">

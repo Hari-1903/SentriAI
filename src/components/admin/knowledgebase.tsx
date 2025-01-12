@@ -5,8 +5,8 @@ import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@radix-ui/react-label'
-import { Database, LucideLoader2, MoveUp, RefreshCcw } from 'lucide-react'
-import React, { useState } from 'react'
+import { Database, LucideLoader2, MoveUp, RefreshCcw, Upload } from 'lucide-react'
+import React, { useState, useRef } from 'react'
 
 
 const VectorDBPage = () => {  
@@ -18,6 +18,16 @@ const VectorDBPage = () => {
     const [progress, setprogress] = useState(0);
 
     const [filelistastext, setfilelistastext] = useState("");
+    
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+          setSelectedFile(file);
+          setfilename(file.name);
+        }
+      };
 
     const onfilelistrefresh = async () => {
         setfilelistastext('');
@@ -38,6 +48,12 @@ const VectorDBPage = () => {
         console.log(response)
         await processStreamedProgress(response);
     }
+
+    const handleFileSelect = () => {
+        fileInputRef.current?.click();
+      };
+
+    
     async function processStreamedProgress(response: Response) {
         const reader = response.body?.getReader();
         if (!reader) {
@@ -73,45 +89,63 @@ const VectorDBPage = () => {
                 <CardTitle> Update Knowledge Base</CardTitle>
                 <CardDescription>Add new document to vector DB</CardDescription>
             </CardHeader>
-            <CardContent>
-                <div className='grid gap-4'>
-                    <div className='col-span-2 grid gap-4 border rounded-lg p-6'>
-                        <div className='gap-4 relative'>
-                            <Button onClick={onfilelistrefresh} className='absolute -right-4 -top-4' variant={'ghost'} size={'icon'}>
+            <CardContent className='space-y-6'>
+                <div className='grid gap-4 grid-cols-3 md:grid-cols-2'>
+                    <div className='space-y-2 grid-span-2'>
+                        <div className='flex items-center justify-between'>
+                            <Label>Files List</Label>   
+                            <Button onClick={onfilelistrefresh} variant={'ghost'} size={'icon'}>
                                 <RefreshCcw/>
                             </Button>
-                            <Label>Files List :</Label>
-                            <Textarea readOnly value={filelistastext}
-                            className='min-h-24 resize-none border p-3 shadow-none disabled:cursor-default focus-visible:ring-0 text-sm text-muted-foreground'
-                            />
                         </div>
-                        <div className=' grid grid-cols-2 gap-4'>
-                            <div className='grid gap-2'>
-                                <Label>
-                                    Index Name
-                                </Label>
-                                <Input value={indexname} onChange={e => setIndexname(e.target.value)} placeholder='Index Name' disabled={isUploading} className='disabled:cursor-default' />
-                            </div>
-                            <div className='grid gap-2'>
-                                <Label>
-                                    Namespace
-                                </Label>
-                                <Input value={namespace} onChange={e => setNamespace(e.target.value)} placeholder='Namespace' disabled={isUploading} className='disabled:cursor-default'/>
-                            </div>
-                        </div>   
+                        <Textarea readOnly value={filelistastext}
+                        className='min-h-[200] resize-none border p-3 shadow-none disabled:cursor-default focus-visible:ring-0 text-sm text-muted-foreground'
+                        />
                     </div>
+                    <div className=' flex justify-between flex-col pt-8'>
+                    <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+              />
+                        <Button onClick={handleFileSelect} variant='outline' className='w-full'>
+                            <Upload className="mr-2 h-4 w-4" />
+                            {selectedFile ? 'Change File' : 'Choose File'}
+                            </Button>
+                            {selectedFile && (
+                                <p className="text-sm text-muted-foreground">Selected: {selectedFile.name}</p>
+                            )}
+                        <div className='space-y-2'>
+                            <Label>
+                            Index Name 
+                            </Label>
+                            <Input value={indexname} onChange={e => setIndexname(e.target.value)} placeholder='Index Name' disabled={isUploading} className='disabled:cursor-default' />
+                        </div>
+                        <div className='space-y-2'>
+                            <Label>
+                                Namespace
+                            </Label>
+                            <Input value={namespace} onChange={e => setNamespace(e.target.value)} placeholder='Namespace' disabled={isUploading} className='disabled:cursor-default'/>
+                        </div>
+                        <div className='items-center justify-center'>
+                        </div>
+                    </div>   
                 </div>
-                <Button onClick={onStartUpload} variant={'outline'} className='w-full h-full' disabled={isUploading} >
+                <div className='flex items-center justify-center'>
+                <Button onClick={onStartUpload} className='h-full' disabled={isUploading} >
                         <span className='flex flex-row>'>
                             <Database size={50}/>
                             <MoveUp className='stroke-red-500'/>
+                            Update Database
                         </span>
                 </Button>
+                </div>
                 {isUploading && <div className='mt-4'>
                     <Label>File Name : {filename}</Label>
                     <div className='flex flex-row items-center gap-4'>
                         <Progress value={progress}/>
-                        <LucideLoader2 className='stroke-red-500 animate-spin'/>
+                        <LucideLoader2 className='animate-spin text-blue-500'/>
                     </div>
                 </div>}
             </CardContent>
